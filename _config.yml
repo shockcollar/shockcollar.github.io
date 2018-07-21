@@ -1,3 +1,5 @@
 theme: jekyll-theme-midnight
-title: PET998D collar reverse engineered
-description:
+title: Reverse engineer PET998D trainer collar
+description: Decoding 433MHz signals
+google_analytics: false
+show_downloads: false
