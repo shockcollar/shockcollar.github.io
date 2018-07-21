@@ -17,7 +17,7 @@ To reverse engineer the signal, I have bought a cheap 433.92MHz transimmer and r
 This contains one MX-05V reciever and a MX-FS-03V transmitter. They are supposed to work on 433.92MHz range, however, they may not be exactly precise, fortunatelly they have been able to communicate with the collar with no issues.
 To increase the range, I have wound a simple spiral antenna for both modules.
 
-![Modules](images/modules.jpg)
+![Modules](https://raw.githubusercontent.com/shockcollar/shockcollar.github.io/master/images/modules.jpg)
 
 This module are really simple, they are basically analog, what you send into the transmitter, you will see it on the receiver. They are using amlitude modulation to achieve this, meaning the amlitude of the signal will be higher or lower depending on the input voltage. With this modulation on-off keying can also be observed.
 
@@ -31,7 +31,7 @@ Alternatively an oscilloscope can be used, or the reciever can be directly conne
 
 After recoding the line input in Audacity and pressing a button on the remote the following popped up in Audacity:
 
-![audacity recorded](images/audacity_recorded.png)
+![audacity recorded](https://raw.githubusercontent.com/shockcollar/shockcollar.github.io/master/images/audacity_recorded.png)
 
 Based on the sampling frequency (48000Hz) and the number of samples reported by Audacity, it's easy to calculate how long each high and low is (1/48000 * sampleNumber).
 Each message starts with a long on pulse, a long off, then the data with the following modulation: long on followed by a short off is "1", and a short on followed by a long off is a "0". This is a basic on-off modulation, there is no other encoding or modulation present.
@@ -39,7 +39,7 @@ Each message starts with a long on pulse, a long off, then the data with the fol
 To remove the manual component of decoding the signal, I have written a Python script using Pyaudio that records input from the sound card and decodes the above mentioned simple protocol into a binary sequence.
 One thing that makes this more challenging is that the 433MHz receiver module automatically adjust the gain if it founds no signal, so before the button on the remote is pressed it picks up lots of really loud looking noise. Once the button is pressed, the noise goes away.
 
-Here is the [decorder source](source/decoder.py)
+Here is the [decorder source](https://github.com/shockcollar/shockcollar.github.io/blob/master/source/decoder.py)
 
 With this program running, I have pressed buttons on the remote, making sure to note the strength and mode. Here is a couple of example data:
 
@@ -86,7 +86,7 @@ Rest of the bits did not change during any combiniation of button sent. Most of 
 
 Here is the program to send commands to your collar using a Raspberry Pi:
 
-[transmitter source](sources/transmit.py)
+[transmitter source](https://github.com/shockcollar/shockcollar.github.io/blob/master/source/transmitter.py)
 
 If you want to use this code to send commands to the collar, you probably will have to modify the id in the above code, or pair this id one with your collar (the same way, documentation says, but use the transmitter instead of the original remote)
 
