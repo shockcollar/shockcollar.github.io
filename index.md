@@ -1,5 +1,3 @@
-# Reverse engineer PET998D trainer collar
-
 For a recent project I had to control a dog trainer collar from a Raspberry pi without the remote control.
 The collar which I had was a cheap [PET998D](https://www.petrainer.com.au/blogs/petrainer-user-manuals-instructions/petrainer-pet998d-user-manual) model.
 This model has 4 modes of operation:
@@ -12,22 +10,22 @@ All of this can be controlled from the remote control. The remote operates at 43
 
 ## Decoding the signals
 
-To reverse engineer the signal, I have bought a cheap 433.92MHz transimmer and reciever module, namely [this one](https://www.aliexpress.com/item/433M-TX-RX-Super-regenerative-Module-Wireless-Transmitting-Module-Alarm-Transmitter-Receiver/2024422377.html?spm=a2g0s.9042311.0.0.7e304c4dOMJz61) which was less than a dollar with free shipping.
+To reverse engineer the signal, I have bought a cheap 433.92MHz transimmer and receiver module, namely [this one](https://www.aliexpress.com/item/433M-TX-RX-Super-regenerative-Module-Wireless-Transmitting-Module-Alarm-Transmitter-Receiver/2024422377.html?spm=a2g0s.9042311.0.0.7e304c4dOMJz61) which was less than a dollar with free shipping.
 
-This contains one MX-05V reciever and a MX-FS-03V transmitter. They are supposed to work on 433.92MHz range, however, they may not be exactly precise, fortunatelly they have been able to communicate with the collar with no issues.
+This contains one MX-05V receever and a MX-FS-03V transmitter. They are supposed to work on 433.92MHz range, however, they may not be exactly precise, fortunatelly they have been able to communicate with the collar with no issues.
 To increase the range, I have wound a simple spiral antenna for both modules.
 
 ![Modules](https://raw.githubusercontent.com/shockcollar/shockcollar.github.io/master/images/modules.jpg)
 
 This module are really simple, they are basically analog, what you send into the transmitter, you will see it on the receiver. They are using amlitude modulation to achieve this, meaning the amlitude of the signal will be higher or lower depending on the input voltage. With this modulation on-off keying can also be observed.
 
-In order to be able to observe and record the signals I have connected the output of the reciever module to my audio card (aka. line input) using the following circuit:
+In order to be able to observe and record the signals I have connected the output of the receiver module to my audio card (aka. line input) using the following circuit:
 
 ![circuit](https://steftech.files.wordpress.com/2014/06/rf2linein.jpg)
 
 <p align="center">_Image from steftech.wordpress.com_</p>
 
-Alternatively an oscilloscope can be used, or the reciever can be directly connected to an Arduino, Raspberry pi, or similar device.
+Alternatively an oscilloscope can be used, or the receiver can be directly connected to an Arduino, Raspberry pi, or similar device.
 
 After recoding the line input in Audacity and pressing a button on the remote the following popped up in Audacity:
 
@@ -39,7 +37,7 @@ Each message starts with a long on pulse, a long off, then the data with the fol
 To remove the manual component of decoding the signal, I have written a Python script using Pyaudio that records input from the sound card and decodes the above mentioned simple protocol into a binary sequence.
 One thing that makes this more challenging is that the 433MHz receiver module automatically adjust the gain if it founds no signal, so before the button on the remote is pressed it picks up lots of really loud looking noise. Once the button is pressed, the noise goes away.
 
-Here is the [decorder source](https://github.com/shockcollar/shockcollar.github.io/blob/master/source/decoder.py)
+Here is the [decoder source](https://github.com/shockcollar/shockcollar.github.io/blob/master/source/decoder.py)
 
 With this program running, I have pressed buttons on the remote, making sure to note the strength and mode. Here is a couple of example data:
 
